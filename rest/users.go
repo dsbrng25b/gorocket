@@ -23,6 +23,14 @@ type logonResponse struct {
 	} `json:"data"`
 }
 
+// SetToken sets the user id and the token if already have them and don't want to use Login
+func (c *Client) SetToken(userId, token string) {
+	c.auth = &authInfo{
+		id:    userId,
+		token: token,
+	}
+}
+
 // Login a user. The Email and the Password are mandatory. The auth token of the user is stored in the Client instance.
 //
 // https://rocket.chat/docs/developer-guides/rest-api/authentication/login

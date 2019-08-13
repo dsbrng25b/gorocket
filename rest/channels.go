@@ -67,7 +67,12 @@ func (c *Client) LeaveChannel(channel *api.Channel) error {
 //
 // https://rocket.chat/docs/developer-guides/rest-api/channels/info
 func (c *Client) GetChannelInfo(channel *api.Channel) (*api.Channel, error) {
-	var url = fmt.Sprintf("%s/api/v1/channels.info?roomId=%s", c.getUrl(), channel.Id)
+	var url string
+	if channel.Id == "" && channel.Name != "" {
+		url = fmt.Sprintf("%s/api/v1/channels.info?roomName=%s", c.getUrl(), channel.Name)
+	} else {
+		url = fmt.Sprintf("%s/api/v1/channels.info?roomId=%s", c.getUrl(), channel.Id)
+	}
 	request, _ := http.NewRequest("GET", url, nil)
 	response := new(channelResponse)
 
